@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "p2x963BPUrVzC/p/X4rsavc0m1oGiXaV7mhcVGgUKfMG1bUjpRgLOrUMH2Ga/8szI/wWJLZ3tgmowE7N6XgDmQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Blue\\source\\repos\\Git\\personal\\DecoratorGenerator\\OtherLibrary\\OtherLibrary.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Blue\\.nuget\\packages\\awssdk.core\\3.7.13.20\\awssdk.core.3.7.13.20.nupkg.sha512",
+    "C:\\Users\\Blue\\.nuget\\packages\\awssdk.dynamodbv2\\3.7.5.16\\awssdk.dynamodbv2.3.7.5.16.nupkg.sha512"
+  ],
+  "logs": []
+}
