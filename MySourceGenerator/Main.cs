@@ -15,6 +15,15 @@ namespace DecoratorGenerator
                              .Where(@as => @as.AttributeClass.Name == "DecorateAttribute")
                              .Any());
 
+
+            var thirdPartyTypes = context.Compilation.Assembly.GetTypeByMetadataName("WrapperList").GetMembers()
+                .Where(m => m.Name != ".ctor")
+                .Select(m => m as IFieldSymbol)
+                .Select(f => f.Type)
+                .Select(t => t as INamedTypeSymbol);
+
+            types = types.Concat(thirdPartyTypes);
+
             var outputs = types.Select(type => {
                 var className = $"{type.Name.Substring(1)}Decorator";
                 var @interface = type;
@@ -23,9 +32,10 @@ namespace DecoratorGenerator
                 var methods = members.Where(member => member is IMethodSymbol && !((member as IMethodSymbol).AssociatedSymbol is IPropertySymbol)).Select(m => m as IMethodSymbol);
                 var properties = members.Where(member => member is IPropertySymbol).Select(m => m as IPropertySymbol);
                 var displayMethods = methods.Select(method => {
+                    var typeParametersStrings = method.TypeParameters.Select(t => t.ToDisplayString());
                     var parametersStrings = method.Parameters.Select(p => $@"{p.Type} {p.Name}");
                     var formattedAccessibility = $@"{char.ToLowerInvariant(method.ReturnType.DeclaredAccessibility.ToString()[0])}{method.ReturnType.DeclaredAccessibility.ToString().Substring(1)}";
-                    var signature = $@"{formattedAccessibility} virtual {method.ReturnType} {method.Name}({string.Join(", ", parametersStrings)})";
+                    var signature = $@"{formattedAccessibility} virtual {method.ReturnType} {method.Name}{(method.IsGenericMethod ? $@"<{string.Join(", ", typeParametersStrings)}>" : string.Empty)}({string.Join(", ", parametersStrings)})";
                     var callParameters = $@"{string.Join(", ", method.Parameters.Select(p => p.Name))}";
 
                     var call = $@"{targetFieldName}.{method.Name}({callParameters})";
