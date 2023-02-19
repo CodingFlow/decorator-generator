@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OtherLibrary
+namespace OtherLibrary;
+
+internal class WrapperListAttribute : Attribute
 {
-    internal class WrapperListAttribute : Attribute
+    public WrapperListAttribute(Type type)
     {
-        public WrapperListAttribute(Type type)
-        {
-        }
     }
 }

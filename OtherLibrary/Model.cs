@@ -1,6 +1,5 @@
-﻿namespace OtherLibrary
+﻿namespace OtherLibrary;
+
+internal class Model
 {
-    internal class Model
-    {
-    }
 }
