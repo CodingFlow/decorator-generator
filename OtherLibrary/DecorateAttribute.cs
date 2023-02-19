@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OtherLibrary;
+﻿namespace OtherLibrary;
 
 public class DecorateAttribute : Attribute
 {

@@ -15,16 +15,14 @@ namespace DecoratorGenerator
                              .Where(@as => @as.AttributeClass.Name == "DecorateAttribute")
                              .Any());
 
-            var outputs = types.Select(type =>
-            {
+            var outputs = types.Select(type => {
                 var className = $"{type.Name.Substring(1)}Decorator";
                 var @interface = type;
                 var targetFieldName = $"{char.ToLowerInvariant(@interface.Name[1])}{@interface.Name.Substring(2)}";
                 var members = @interface.GetMembers();
                 var methods = members.Where(member => member is IMethodSymbol && !((member as IMethodSymbol).AssociatedSymbol is IPropertySymbol)).Select(m => m as IMethodSymbol);
                 var properties = members.Where(member => member is IPropertySymbol).Select(m => m as IPropertySymbol);
-                var displayMethods = methods.Select(method =>
-                {
+                var displayMethods = methods.Select(method => {
                     var parametersStrings = method.Parameters.Select(p => $@"{p.Type} {p.Name}");
                     var formattedAccessibility = $@"{char.ToLowerInvariant(method.ReturnType.DeclaredAccessibility.ToString()[0])}{method.ReturnType.DeclaredAccessibility.ToString().Substring(1)}";
                     var signature = $@"{formattedAccessibility} virtual {method.ReturnType} {method.Name}({string.Join(", ", parametersStrings)})";
@@ -34,8 +32,7 @@ namespace DecoratorGenerator
 
                     return (signature, call, returnType: method.ReturnType);
                 });
-                var displayProperties = properties.Select(property =>
-                {
+                var displayProperties = properties.Select(property => {
                     var formattedAccessibility = $@"{char.ToLowerInvariant(property.Type.DeclaredAccessibility.ToString()[0])}{property.Type.DeclaredAccessibility.ToString().Substring(1)}";
                     var signature = $@"{formattedAccessibility} virtual {property.Type} {property.Name}";
                     var call = $@"get => cat.{property.Name}; set => {targetFieldName}.{property.Name} = value;";
@@ -43,16 +40,14 @@ namespace DecoratorGenerator
                     return (signature, call, string.Empty);
                 });
 
-                var formattedDisplayMethods = displayMethods.Select(method =>
-                {
+                var formattedDisplayMethods = displayMethods.Select(method => {
                     return
 $@"    {method.signature} {{
         {(method.returnType.Name == "Void" ? string.Empty : "return")} {method.call};
     }}";
                 });
 
-                var formattedDisplayProperties = displayProperties.Select(property =>
-                {
+                var formattedDisplayProperties = displayProperties.Select(property => {
                     return
 $@"    {property.signature} {{ {property.call} }}";
                 });
@@ -78,8 +73,7 @@ public abstract class {className} : {@interface.Name}
                 return (source, className);
             });
 
-            foreach (var (source, className) in outputs)
-            {
+            foreach (var (source, className) in outputs) {
                 // Add the source code to the compilation
                 context.AddSource($"{className}.generated.cs", source);
             }
