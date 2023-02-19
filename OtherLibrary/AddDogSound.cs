@@ -1,6 +1,4 @@
-﻿using Amazon.DynamoDBv2.DataModel;
-using Amazon.DynamoDBv2;
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 
 namespace OtherLibrary;
 
@@ -18,9 +16,6 @@ public class AddDogSound : CatDecorator
 
     public override string MeowLoudly()
     {
-        //var client = new AmazonDynamoDBClient();
-        //var context = new DynamoDBContext(client);
-        //var useDb = new UseDb(context);
         return $"woof woof - {base.MeowLoudly()}";
     }
 }

@@ -15,28 +15,6 @@ namespace DecoratorGenerator
                              .Where(@as => @as.AttributeClass.Name == "DecorateAttribute")
                              .Any());
 
-            //var wrapperList = context.Compilation.Assembly.GlobalNamespace
-            //    .GetNamespaceMembers()
-            //    .SelectMany(n => n.GetTypeMembers())
-            //    .First(t => t.Name == "WrapperList");
-
-            //var dogs = context.Compilation.Assembly.GlobalNamespace
-            //    .GetNamespaceMembers()
-            //    .SelectMany(n => n.GetTypeMembers())
-            //    .Where(t => t.Name.Contains("Dog"));
-
-            //var nonPocoDogs = dogs
-            //    .Where(d => d
-            //        .GetMembers()
-            //        .Where(m => m.Kind == SymbolKind.Property)
-            //        .Select(m => m as IPropertySymbol)
-            //        .Any(p =>
-            //        {
-            //            var hasGetterBody = p.GetMethod.DeclaringSyntaxReferences.First().GetSyntax().ChildNodes().Any();
-            //            var hasSetterBody = p.SetMethod.DeclaringSyntaxReferences.First().GetSyntax().ChildNodes().Any();
-            //            return hasGetterBody || hasSetterBody;
-            //        }));
-
             var outputs = types.Select(type =>
             {
                 var className = $"{type.Name.Substring(1)}Decorator";
