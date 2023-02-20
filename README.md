@@ -38,8 +38,6 @@ public interface ICat
 Build the project so the abstract class is generated for the interface. The generated class will be named after the interface, but without the `I` prefix. In this case, since the interface is `ICat` the class will be `CatDecorator`. Then create your decorator class as usual:
 
 ```c#
-using System.Text.Json.Nodes;
-
 namespace SampleLibrary;
 
 public class BarkingCat : CatDecorator
