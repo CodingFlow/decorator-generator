@@ -1,4 +1,4 @@
-# decorator-generator
+# Decorator Generator
 
 Source generator for decorator pattern boilerplate code in C#.
 
