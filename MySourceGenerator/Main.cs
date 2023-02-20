@@ -16,7 +16,6 @@ namespace DecoratorGenerator
                              .Where(@as => @as.AttributeClass.Name == "DecorateAttribute")
                              .Any());
 
-
             var thirdPartyTypes = context.Compilation.Assembly.GetTypeByMetadataName("WrapperList").GetMembers()
                 .Where(m => m.Name != ".ctor")
                 .Select(m => m as IFieldSymbol)
@@ -28,7 +27,7 @@ namespace DecoratorGenerator
             var outputs = types.Select(type => {
                 var className = $"{type.Name.Substring(1)}Decorator";
                 var @interface = type;
-                var targetFieldName = $"{char.ToLowerInvariant(@interface.Name[1])}{@interface.Name.Substring(2)}";
+                var targetFieldName = @interface.Name.ToLower();
                 var ancestorInterfaces = type.AllInterfaces;
                 var ancestorMembers = ancestorInterfaces.SelectMany(a => a.GetMembers());
                 var members = @interface.GetMembers().Concat(ancestorMembers);
