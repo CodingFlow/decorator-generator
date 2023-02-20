@@ -27,7 +27,7 @@ namespace DecoratorGenerator
             var outputs = types.Select(type => {
                 var className = $"{type.Name.Substring(1)}Decorator";
                 var @interface = type;
-                var targetFieldName = @interface.Name.ToLower();
+                var targetFieldName = $@"{char.ToLower(@interface.Name[1])}{@interface.Name.Substring(2)}";
                 var ancestorInterfaces = type.AllInterfaces;
                 var ancestorMembers = ancestorInterfaces.SelectMany(a => a.GetMembers());
                 var members = @interface.GetMembers().Concat(ancestorMembers);
@@ -74,7 +74,7 @@ public abstract class {className} : {@interface.Name}
             var displayProperties = properties.Select(property => {
                 var formattedAccessibility = property.Type.DeclaredAccessibility.ToString().ToLower();
                 var signature = $@"{formattedAccessibility} virtual {property.Type} {property.Name}";
-                var call = $@"get => cat.{property.Name}; set => {targetFieldName}.{property.Name} = value;";
+                var call = $@"get => {targetFieldName}.{property.Name}; set => {targetFieldName}.{property.Name} = value;";
 
                 return (signature, call, string.Empty);
             });
