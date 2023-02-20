@@ -92,7 +92,8 @@ $@"    {property.signature} {{ {property.call} }}";
             var displayMethods = methods.Select(method => {
                 var typeParametersStrings = method.TypeParameters.Select(t => t.ToDisplayString());
                 var parametersStrings = method.Parameters.Select(p => $@"{p.Type} {p.Name}");
-                var formattedAccessibility = $@"{char.ToLowerInvariant(method.ReturnType.DeclaredAccessibility.ToString()[0])}{method.ReturnType.DeclaredAccessibility.ToString().Substring(1)}";
+                //var formattedAccessibility = $@"{char.ToLowerInvariant(method.ReturnType.DeclaredAccessibility.ToString()[0])}{method.ReturnType.DeclaredAccessibility.ToString().Substring(1)}";
+                var formattedAccessibility = "public";
                 var signature = $@"{formattedAccessibility} virtual {method.ReturnType} {method.Name}{(method.IsGenericMethod ? $@"<{string.Join(", ", typeParametersStrings)}>" : string.Empty)}({string.Join(", ", parametersStrings)})";
                 var callParameters = $@"{string.Join(", ", method.Parameters.Select(p => p.Name))}";
 
