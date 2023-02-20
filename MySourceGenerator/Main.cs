@@ -97,7 +97,7 @@ $@"    {property.signature} {{ {property.call} }}";
                 var signature = $@"{formattedAccessibility} virtual {method.ReturnType} {method.Name}{(method.IsGenericMethod ? $@"<{string.Join(", ", typeParametersStrings)}>" : string.Empty)}({string.Join(", ", parametersStrings)})";
                 var callParameters = $@"{string.Join(", ", method.Parameters.Select(p => p.Name))}";
 
-                var call = $@"{targetFieldName}.{method.Name}({callParameters})";
+                var call = $@"{targetFieldName}.{method.Name}{(method.IsGenericMethod ? $@"<{string.Join(", ", typeParametersStrings)}>" : string.Empty)}({callParameters})";
 
                 return (signature, call, returnType: method.ReturnType);
             });
