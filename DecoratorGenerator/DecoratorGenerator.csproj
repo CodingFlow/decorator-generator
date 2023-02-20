@@ -8,9 +8,14 @@
     <PackageProjectUrl></PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/CodingFlow/decorator-generator</RepositoryUrl>
-    <PackageTags>source;generator;roslyn;decorator</PackageTags>
+    <PackageTags>source;generator;roslyn;decorator;proxy;</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <VersionPrefix>0.1.0</VersionPrefix>
+    <Description>Source generator for decorator pattern boilerplate code in C#.
+
+When implementing the decorator pattern in C#, it requires adding boilerplate code for every interface that needs to support decorators, namely the abstract class. Boilerplate is tedious to write and error-prone. This source generator solves this problem by automatically generating the abstract class. It only needs to be told which interfaces it should generate the abstract class for.</Description>
+    <Authors>Coding Flow</Authors>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
