@@ -16,11 +16,12 @@ namespace DecoratorGenerator
                              .Where(@as => @as.AttributeClass.Name == "DecorateAttribute")
                              .Any());
 
-            var thirdPartyTypes = context.Compilation.Assembly.GetTypeByMetadataName("WrapperList").GetMembers()
+            var thirdPartyTypes = context.Compilation.Assembly.GetTypeByMetadataName("WrapperList")?.GetMembers()
                 .Where(m => m.Name != ".ctor")
                 .Select(m => m as IFieldSymbol)
                 .Select(f => f.Type)
-                .Select(t => t as INamedTypeSymbol);
+                .Select(t => t as INamedTypeSymbol)
+                ?? Enumerable.Empty<INamedTypeSymbol>();
 
             types = types.Concat(thirdPartyTypes);
 

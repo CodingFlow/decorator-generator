@@ -2,7 +2,7 @@
   "profiles": {
     "Profile 1": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\OtherLibrary\\OtherLibrary.csproj"
+      "targetProject": "..\\SampleLibrary\\SampleLibrary.csproj"
     }
   }
 }
