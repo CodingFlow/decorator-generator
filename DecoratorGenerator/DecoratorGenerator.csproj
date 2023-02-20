@@ -10,6 +10,7 @@
     <RepositoryUrl>https://github.com/CodingFlow/decorator-generator</RepositoryUrl>
     <PackageTags>source;generator;roslyn;decorator</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <VersionPrefix>0.1.0</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
