@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Nodes;
 
-namespace OtherLibrary;
+namespace SampleLibrary;
 
 [Decorate]
 public interface ICat

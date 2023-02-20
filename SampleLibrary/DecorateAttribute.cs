@@ -1,4 +1,4 @@
-﻿namespace OtherLibrary;
+﻿namespace SampleLibrary;
 
 public class DecorateAttribute : Attribute
 {

@@ -1,12 +1,12 @@
 ﻿using System.Text.Json.Nodes;
 
-namespace OtherLibrary;
+namespace SampleLibrary;
 
-public abstract class CatExpected : ICat
+public abstract class CatDecoratorExpected : ICat
 {
     private readonly ICat cat;
 
-    protected CatExpected(ICat cat)
+    protected CatDecoratorExpected(ICat cat)
     {
         this.cat = cat;
     }

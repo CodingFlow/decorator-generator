@@ -1,10 +1,10 @@
 ﻿using System.Text.Json.Nodes;
 
-namespace OtherLibrary;
+namespace SampleLibrary;
 
-public class AddDogSound : CatDecorator
+public class BarkingCat : CatDecorator
 {
-    public AddDogSound(ICat cat) : base(cat)
+    public BarkingCat(ICat cat) : base(cat)
     {
 
     }

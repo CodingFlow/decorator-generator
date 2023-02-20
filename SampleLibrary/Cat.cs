@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Nodes;
 
-namespace OtherLibrary;
+namespace SampleLibrary;
 
 public class Cat : ICat
 {
