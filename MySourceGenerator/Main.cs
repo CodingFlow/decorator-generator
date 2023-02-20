@@ -65,17 +65,14 @@ public abstract class {className} : {@interface.Name}
 
         private static IEnumerable<string> FormatDisplayProperties(IEnumerable<(string signature, string call, string Empty)> displayProperties)
         {
-            return displayProperties.Select(property => {
-                return
-$@"    {property.signature} {{ {property.call} }}";
-            });
+            return displayProperties.Select(property => $@"    {property.signature} {{ {property.call} }}");
         }
 
         private static IEnumerable<(string signature, string call, string Empty)> CreateDisplayProperties(string targetFieldName, IEnumerable<ISymbol> members)
         {
             var properties = members.Where(member => member is IPropertySymbol).Select(m => m as IPropertySymbol);
             var displayProperties = properties.Select(property => {
-                var formattedAccessibility = $@"{char.ToLowerInvariant(property.Type.DeclaredAccessibility.ToString()[0])}{property.Type.DeclaredAccessibility.ToString().Substring(1)}";
+                var formattedAccessibility = property.Type.DeclaredAccessibility.ToString().ToLower();
                 var signature = $@"{formattedAccessibility} virtual {property.Type} {property.Name}";
                 var call = $@"get => cat.{property.Name}; set => {targetFieldName}.{property.Name} = value;";
 
