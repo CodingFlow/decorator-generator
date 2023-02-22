@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DecoratorGenerator", "Decor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleLibrary", "SampleLibrary\SampleLibrary.csproj", "{75EC8F81-2573-4C1B-8924-0175D37B1909}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleLibrary2", "SampleLibrary2\SampleLibrary2.csproj", "{D47F814F-ADE0-4FA6-AA5D-AD5E5BE24BBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleLibrary2", "SampleLibrary2\SampleLibrary2.csproj", "{D47F814F-ADE0-4FA6-AA5D-AD5E5BE24BBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
