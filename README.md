@@ -1,5 +1,9 @@
 # Decorator Generator
 
+[![Nuget](https://img.shields.io/nuget/v/DecoratorGenerator)](https://www.nuget.org/packages/DecoratorGenerator)
+[![Nuget](https://img.shields.io/nuget/dt/DecoratorGenerator)](https://www.nuget.org/packages/DecoratorGenerator)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/CodingFlow)](https://github.com/sponsors/CodingFlow)
+
 Source generator for decorator pattern boilerplate code in C#.
 
 When implementing the [decorator pattern in C#](https://en.wikipedia.org/wiki/Decorator_pattern#C#), it requires adding boilerplate code for every interface that needs to support decorators, namely the abstract class. Boilerplate is tedious to write and error-prone. This source generator solves this problem by automatically generating the abstract class. It only needs to be told which interfaces it should generate the abstract class for.
