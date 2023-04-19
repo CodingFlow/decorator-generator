@@ -133,7 +133,7 @@ $@"    {method.signature} {{
         /// <returns></returns>
         private IEnumerable<INamedTypeSymbol> GetAllDecoratedTypes(INamespaceSymbol input)
         {
-            return GetAllTypes(input, (x) => x.GetAttributes().Any(att => att.AttributeClass.Name == "DecorateAttribute"));
+            return GetAllTypes(input, (x) => x.GetAttributes().Any(att => att.AttributeClass.Name == nameof(DecorateAttribute)));
         }
 
         public void Initialize(GeneratorInitializationContext context)
