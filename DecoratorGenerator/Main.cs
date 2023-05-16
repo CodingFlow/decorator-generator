@@ -12,12 +12,18 @@ namespace DecoratorGenerator
         {
             var types = GetAllDecoratedTypes(context.Compilation.Assembly.GlobalNamespace);
 
-            var thirdPartyTypes = GetAllTypes(context.Compilation.Assembly.GlobalNamespace, x => x.Name == "WrapperList").SelectMany(x => x.GetMembers()
+            var wrapperSymbolWithoutNamespace = context.Compilation.Assembly.GetTypeByMetadataName("WrapperList");
+            var wrapperListTypes =
+                (wrapperSymbolWithoutNamespace == null)
+                ? GetAllTypes(context.Compilation.Assembly.GlobalNamespace, x => x.Name == "WrapperList")
+                : new[] { wrapperSymbolWithoutNamespace };
+            var thirdPartyTypes =
+                wrapperListTypes.SelectMany(x => x.GetMembers()
                 .Where(m => m.Name != ".ctor")
                 .Select(m => m as IFieldSymbol)
                 .Select(f => f.Type)
-                .Select(t => t as INamedTypeSymbol));                
-                
+                .Select(t => t as INamedTypeSymbol));
+
             types = types.Concat(thirdPartyTypes);
 
             var outputs = types.Select(type => {
