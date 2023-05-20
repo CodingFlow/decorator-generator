@@ -1,5 +1,5 @@
 name: pull-request
-run-name: pull request
+run-name: Unit tests
 on: [push]
 jobs:
   build:
