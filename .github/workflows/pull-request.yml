@@ -1,4 +1,4 @@
-name: pull-request
+name: pull-request-unit-tests
 run-name: Unit tests
 on: [push]
 jobs:
