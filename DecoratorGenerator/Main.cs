@@ -1,15 +1,16 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace DecoratorGenerator
 {
     [Generator]
     public class Main : ISourceGenerator
     {
-        public void Execute(GeneratorExecutionContext context)
-        {
+        public void Execute(GeneratorExecutionContext context) {
             var types = GetAllDecoratedTypes(context.Compilation.Assembly.GlobalNamespace);
 
             var wrapperSymbolWithoutNamespace = context.Compilation.Assembly.GetTypeByMetadataName("WrapperList");
@@ -46,13 +47,13 @@ public abstract class {className} : {@interface.Name}
 {{
     private {@interface.Name} {targetFieldName};
 
-    protected {className} ({@interface.Name} {targetFieldName}) {{
+    protected {className}({@interface.Name} {targetFieldName}) {{
         this.{targetFieldName} = {targetFieldName};
     }}
 
-{string.Join("\n\n", formattedDisplayProperties)}
+{string.Join($"{Environment.NewLine}{Environment.NewLine}", formattedDisplayProperties)}
 
-{string.Join("\n\n", formattedDisplayMethods)}
+{string.Join($"{Environment.NewLine}{Environment.NewLine}", formattedDisplayMethods)}
 }}
 ";
 
@@ -61,20 +62,18 @@ public abstract class {className} : {@interface.Name}
 
             foreach (var (source, className) in outputs) {
                 // Add the source code to the compilation
-                context.AddSource($"{className}.generated.cs", source);
+                context.AddSource($"{className}.generated.cs", SourceText.From(source, Encoding.UTF8, SourceHashAlgorithm.Sha256));
             }
         }
 
-        private static IEnumerable<string> FormatDisplayProperties(IEnumerable<(string signature, string call, string Empty)> displayProperties)
-        {
+        private static IEnumerable<string> FormatDisplayProperties(IEnumerable<(string signature, string call, string Empty)> displayProperties) {
             return displayProperties.Select(property => $@"    {property.signature} {{ {property.call} }}");
         }
 
-        private static IEnumerable<(string signature, string call, string Empty)> CreateDisplayProperties(string targetFieldName, IEnumerable<ISymbol> members)
-        {
+        private static IEnumerable<(string signature, string call, string Empty)> CreateDisplayProperties(string targetFieldName, IEnumerable<ISymbol> members) {
             var properties = members.Where(member => member is IPropertySymbol).Select(m => m as IPropertySymbol);
             var displayProperties = properties.Select(property => {
-                var formattedAccessibility = property.Type.DeclaredAccessibility.ToString().ToLower();
+                var formattedAccessibility = property.DeclaredAccessibility.ToString().ToLower();
                 var signature = $@"{formattedAccessibility} virtual {property.Type} {property.Name}";
                 var call = $@"get => {targetFieldName}.{property.Name}; set => {targetFieldName}.{property.Name} = value;";
 
@@ -83,8 +82,7 @@ public abstract class {className} : {@interface.Name}
             return displayProperties;
         }
 
-        private static IEnumerable<(string signature, string call, ITypeSymbol returnType)> CreateDisplayMethods(string targetFieldName, IEnumerable<ISymbol> members)
-        {
+        private static IEnumerable<(string signature, string call, ITypeSymbol returnType)> CreateDisplayMethods(string targetFieldName, IEnumerable<ISymbol> members) {
             var methods = members.Where(member => member is IMethodSymbol && !((member as IMethodSymbol).AssociatedSymbol is IPropertySymbol)).Select(m => m as IMethodSymbol);
 
             var displayMethods = methods.Select(method => {
@@ -101,12 +99,11 @@ public abstract class {className} : {@interface.Name}
             return displayMethods;
         }
 
-        private static IEnumerable<string> FormatDisplayMethods(IEnumerable<(string signature, string call, ITypeSymbol returnType)> displayMethods)
-        {
+        private static IEnumerable<string> FormatDisplayMethods(IEnumerable<(string signature, string call, ITypeSymbol returnType)> displayMethods) {
             return displayMethods.Select(method => {
                 return
 $@"    {method.signature} {{
-        {(method.returnType.Name == "Void" ? string.Empty : "return")} {method.call};
+        {(method.returnType.Name == "Void" ? string.Empty : "return ")}{method.call};
     }}";
             });
         }
@@ -117,8 +114,7 @@ $@"    {method.signature} {{
         /// <param name="input"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        private IEnumerable<INamedTypeSymbol> GetAllTypes(INamespaceSymbol input, Func<INamedTypeSymbol, bool> predicate)
-        {
+        private IEnumerable<INamedTypeSymbol> GetAllTypes(INamespaceSymbol input, Func<INamedTypeSymbol, bool> predicate) {
             foreach (var space in input.GetNamespaceMembers()) {
                 foreach (var item in space.GetTypeMembers()) {
                     if (predicate(item)) {
@@ -137,13 +133,11 @@ $@"    {method.signature} {{
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        private IEnumerable<INamedTypeSymbol> GetAllDecoratedTypes(INamespaceSymbol input)
-        {
+        private IEnumerable<INamedTypeSymbol> GetAllDecoratedTypes(INamespaceSymbol input) {
             return GetAllTypes(input, (x) => x.GetAttributes().Any(att => att.AttributeClass.Name == nameof(DecorateAttribute)));
         }
 
-        public void Initialize(GeneratorInitializationContext context)
-        {
+        public void Initialize(GeneratorInitializationContext context) {
             // No initialization required for this one
         }
     }
