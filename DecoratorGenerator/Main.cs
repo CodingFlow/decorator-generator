@@ -47,7 +47,7 @@ public abstract class {className} : {@interface.Name}
 {{
     private {@interface.Name} {targetFieldName};
 
-    protected {className} ({@interface.Name} {targetFieldName}) {{
+    protected {className}({@interface.Name} {targetFieldName}) {{
         this.{targetFieldName} = {targetFieldName};
     }}
 
@@ -103,7 +103,7 @@ public abstract class {className} : {@interface.Name}
             return displayMethods.Select(method => {
                 return
 $@"    {method.signature} {{
-        {(method.returnType.Name == "Void" ? string.Empty : "return")} {method.call};
+        {(method.returnType.Name == "Void" ? string.Empty : "return ")}{method.call};
     }}";
             });
         }

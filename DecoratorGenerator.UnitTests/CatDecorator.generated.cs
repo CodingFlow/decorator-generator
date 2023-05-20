@@ -5,14 +5,14 @@ public abstract class CatDecorator : ICat
 {
     private ICat cat;
 
-    protected CatDecorator (ICat cat) {
+    protected CatDecorator(ICat cat) {
         this.cat = cat;
     }
 
     public virtual int MeowProperty { get => cat.MeowProperty; set => cat.MeowProperty = value; }
 
     public virtual void Meow() {
-         cat.Meow();
+        cat.Meow();
     }
 
     public virtual string MeowCustomized(int volume, string sound, SampleLibrary.ICat cat, System.Text.Json.Nodes.JsonArray jsonArray) {

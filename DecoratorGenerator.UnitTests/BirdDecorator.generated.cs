@@ -5,7 +5,7 @@ public abstract class BirdDecorator : IBird
 {
     private IBird bird;
 
-    protected BirdDecorator (IBird bird) {
+    protected BirdDecorator(IBird bird) {
         this.bird = bird;
     }
 

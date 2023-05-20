@@ -5,7 +5,7 @@ public abstract class DynamoDBContextDecorator : IDynamoDBContext
 {
     private IDynamoDBContext dynamoDBContext;
 
-    protected DynamoDBContextDecorator (IDynamoDBContext dynamoDBContext) {
+    protected DynamoDBContextDecorator(IDynamoDBContext dynamoDBContext) {
         this.dynamoDBContext = dynamoDBContext;
     }
 
@@ -140,6 +140,6 @@ public abstract class DynamoDBContextDecorator : IDynamoDBContext
     }
 
     public virtual void Dispose() {
-         dynamoDBContext.Dispose();
+        dynamoDBContext.Dispose();
     }
 }
