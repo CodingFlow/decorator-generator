@@ -1,6 +1,6 @@
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Text;
-using SampleLibrary2;
+using SampleLibrary;
 using System.Reflection;
 using System.Text;
 using VerifyCS = DecoratorGenerator.UnitTests.CSharpSourceGeneratorVerifier<DecoratorGenerator.Main>;

@@ -1,7 +1,7 @@
 ﻿using DecoratorGenerator;
 using System.Text.Json.Nodes;
 
-namespace SampleLibrary2;
+namespace SampleLibrary;
 
 [Decorate]
 public interface ICat

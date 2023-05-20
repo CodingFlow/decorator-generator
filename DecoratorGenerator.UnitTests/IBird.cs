@@ -1,6 +1,6 @@
 ﻿using DecoratorGenerator;
 
-namespace SampleLibrary2;
+namespace SampleLibrary;
 
 [Decorate]
 public interface IBird
