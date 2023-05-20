@@ -58,7 +58,7 @@ public class Tests
                 Sources = { sourceOne, sourceTwo },
                 GeneratedSources =
                 {
-                    (typeof(Main), "BirdDecorator.generated.cs", SourceText.From(generatedOne, Encoding.UTF8, SourceHashAlgorithm.Sha256)),
+                    (typeof(Main), "BirdDecorator.generatedX.cs", SourceText.From(generatedOne, Encoding.UTF8, SourceHashAlgorithm.Sha256)),
                     (typeof(Main), "CatDecorator.generated.cs", SourceText.From(generatedTwo, Encoding.UTF8, SourceHashAlgorithm.Sha256))
                 },
             },
