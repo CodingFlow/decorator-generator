@@ -1,3 +1,4 @@
+using Amazon.DynamoDBv2.DataModel;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Text;
 using SampleLibrary;
@@ -13,8 +14,7 @@ public class Tests
 
     [SetUp]
     public void Setup() {
-        var implementationAssemblyName = Assembly.GetExecutingAssembly().GetReferencedAssemblies().First(a => a.FullName.Contains("DecoratorGenerator"));
-        implementationAssembly = Assembly.Load(implementationAssemblyName);
+        implementationAssembly = GetAssembly("DecoratorGenerator");
     }
 
     [Test]
@@ -65,7 +65,38 @@ public class Tests
         }.RunAsync();
     }
 
-    private static async Task<string> ReadCSharpFile<T>() where T : class {
+    [Test]
+    public async Task WrapperList() {
+        var source = await ReadCSharpFile<IBird>();
+        var wrapperList = await ReadCSharpFile<WrapperList>();
+        var generated = await ReadCSharpFile<BirdDecorator>();
+        var generatedThirdParty = await ReadCSharpFile<DynamoDBContextDecorator>();
+
+        await new VerifyCS.Test
+        {
+            TestState = {
+                ReferenceAssemblies = ReferenceAssemblies.Net.Net60,
+                AdditionalReferences =
+                {
+                    implementationAssembly,
+                    GetAssembly("AWSSDK.DynamoDBv2")
+                },
+                Sources = { wrapperList, source },
+                GeneratedSources =
+                {
+                    (typeof(Main), "BirdDecorator.generated.cs", SourceText.From(generated, Encoding.UTF8, SourceHashAlgorithm.Sha256)),
+                    (typeof(Main), "DynamoDBContextDecorator.generated.cs", SourceText.From(generatedThirdParty, Encoding.UTF8, SourceHashAlgorithm.Sha256)),
+                },
+            },
+        }.RunAsync();
+    }
+
+    private static Assembly GetAssembly(string name) {
+        var implementationAssemblyName = Assembly.GetExecutingAssembly().GetReferencedAssemblies().First(a => a.FullName.Contains(name));
+        return Assembly.Load(implementationAssemblyName);
+    }
+
+    private static async Task<string> ReadCSharpFile<T>() {
         var currentDirectory = Directory.GetParent(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName);
 
         var searchPattern = $"{typeof(T).Name}*.cs";
