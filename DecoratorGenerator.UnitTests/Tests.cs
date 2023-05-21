@@ -2,6 +2,7 @@ using Amazon.DynamoDBv2.DataModel;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Text;
 using SampleLibrary;
+using SampleLibrary.Deep.Nesteds;
 using System.Reflection;
 using System.Text;
 using VerifyCS = DecoratorGenerator.UnitTests.CSharpSourceGeneratorVerifier<DecoratorGenerator.Main>;
@@ -34,6 +35,28 @@ public class Tests
                 GeneratedSources =
                 {
                     (typeof(Main), "BirdDecorator.generated.cs", SourceText.From(generated, Encoding.UTF8, SourceHashAlgorithm.Sha256)),
+                },
+            },
+        }.RunAsync();
+    }
+
+    [Test]
+    public async Task OneInterface_NestedNamespace() {
+        var source = await ReadCSharpFile<INested>();
+        var generated = await ReadCSharpFile<NestedDecorator>();
+
+        await new VerifyCS.Test
+        {
+            TestState = {
+                ReferenceAssemblies = ReferenceAssemblies.Net.Net60,
+                AdditionalReferences =
+                {
+                    implementationAssembly,
+                },
+                Sources = { source },
+                GeneratedSources =
+                {
+                    (typeof(Main), "NestedDecorator.generated.cs", SourceText.From(generated, Encoding.UTF8, SourceHashAlgorithm.Sha256)),
                 },
             },
         }.RunAsync();
