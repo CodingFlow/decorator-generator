@@ -51,6 +51,22 @@ public abstract class DynamoDBContextDecorator : IDynamoDBContext
         return dynamoDBContext.CreateMultiTableBatchWrite(batches);
     }
 
+    public virtual Amazon.DynamoDBv2.DataModel.TransactGet<T> CreateTransactGet<T>(Amazon.DynamoDBv2.DataModel.DynamoDBOperationConfig operationConfig) {
+        return dynamoDBContext.CreateTransactGet<T>(operationConfig);
+    }
+
+    public virtual Amazon.DynamoDBv2.DataModel.MultiTableTransactGet CreateMultiTableTransactGet(Amazon.DynamoDBv2.DataModel.TransactGet[] transactionParts) {
+        return dynamoDBContext.CreateMultiTableTransactGet(transactionParts);
+    }
+
+    public virtual Amazon.DynamoDBv2.DataModel.TransactWrite<T> CreateTransactWrite<T>(Amazon.DynamoDBv2.DataModel.DynamoDBOperationConfig operationConfig) {
+        return dynamoDBContext.CreateTransactWrite<T>(operationConfig);
+    }
+
+    public virtual Amazon.DynamoDBv2.DataModel.MultiTableTransactWrite CreateMultiTableTransactWrite(Amazon.DynamoDBv2.DataModel.TransactWrite[] transactionParts) {
+        return dynamoDBContext.CreateMultiTableTransactWrite(transactionParts);
+    }
+
     public virtual System.Threading.Tasks.Task SaveAsync<T>(T value, System.Threading.CancellationToken cancellationToken) {
         return dynamoDBContext.SaveAsync<T>(value, cancellationToken);
     }
@@ -113,6 +129,14 @@ public abstract class DynamoDBContextDecorator : IDynamoDBContext
 
     public virtual System.Threading.Tasks.Task ExecuteBatchWriteAsync(Amazon.DynamoDBv2.DataModel.BatchWrite[] batches, System.Threading.CancellationToken cancellationToken) {
         return dynamoDBContext.ExecuteBatchWriteAsync(batches, cancellationToken);
+    }
+
+    public virtual System.Threading.Tasks.Task ExecuteTransactGetAsync(Amazon.DynamoDBv2.DataModel.TransactGet[] transactionParts, System.Threading.CancellationToken cancellationToken) {
+        return dynamoDBContext.ExecuteTransactGetAsync(transactionParts, cancellationToken);
+    }
+
+    public virtual System.Threading.Tasks.Task ExecuteTransactWriteAsync(Amazon.DynamoDBv2.DataModel.TransactWrite[] transactionParts, System.Threading.CancellationToken cancellationToken) {
+        return dynamoDBContext.ExecuteTransactWriteAsync(transactionParts, cancellationToken);
     }
 
     public virtual Amazon.DynamoDBv2.DataModel.AsyncSearch<T> ScanAsync<T>(System.Collections.Generic.IEnumerable<Amazon.DynamoDBv2.DataModel.ScanCondition> conditions, Amazon.DynamoDBv2.DataModel.DynamoDBOperationConfig operationConfig) {
