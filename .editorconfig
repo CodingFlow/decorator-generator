@@ -134,3 +134,7 @@ csharp_new_line_before_finally = false
 csharp_style_prefer_readonly_struct_member = true:suggestion
 csharp_style_allow_blank_line_after_token_in_conditional_expression_experimental = true:silent
 csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = true:silent
+
+[*.csproj]
+indent_style = space
+indent_size = 4

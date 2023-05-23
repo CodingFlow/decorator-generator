@@ -1,52 +1,54 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <IsRoslynComponent>true</IsRoslynComponent>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>Decorator Generator</Title>
-    <PackageProjectUrl></PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/CodingFlow/decorator-generator</RepositoryUrl>
-    <PackageTags>source;generator;roslyn;decorator;proxy;</PackageTags>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <VersionPrefix>0.2.0</VersionPrefix>
-    <Description>Source generator for decorator pattern boilerplate code in C#.
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <IsRoslynComponent>true</IsRoslynComponent>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <Title>Decorator Generator</Title>
+        <PackageProjectUrl></PackageProjectUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/CodingFlow/decorator-generator</RepositoryUrl>
+        <PackageTags>source;generator;roslyn;decorator;proxy;</PackageTags>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <VersionPrefix>0.2.0</VersionPrefix>
+        <Description>
+            Source generator for decorator pattern boilerplate code in C#.
 
-When implementing the decorator pattern in C#, it requires adding boilerplate code for every interface that needs to support decorators, namely the abstract class. Boilerplate is tedious to write and error-prone. This source generator solves this problem by automatically generating the abstract class. It only needs to be told which interfaces it should generate the abstract class for.</Description>
-    <Authors>Coding Flow</Authors>
-    <RepositoryType>git</RepositoryType>
-    <PackageIcon>nuget-package-logo.png</PackageIcon>
-    <PackageReleaseNotes>0.2.0
+            When implementing the decorator pattern in C#, it requires adding boilerplate code for every interface that needs to support decorators, namely the abstract class. Boilerplate is tedious to write and error-prone. This source generator solves this problem by automatically generating the abstract class. It only needs to be told which interfaces it should generate the abstract class for.
+        </Description>
+        <Authors>Coding Flow</Authors>
+        <RepositoryType>git</RepositoryType>
+        <PackageIcon>nuget-package-logo.png</PackageIcon>
+        <PackageReleaseNotes>0.2.0
 - Minor whitespace changes in generated files
 - Uniform line ending type in generated files
 0.1.4
 - Add support for types with nested namespaces.</PackageReleaseNotes>
-  </PropertyGroup>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Include="nuget-package-logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="nuget-package-logo.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.6.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.6.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.6.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.6.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 
 </Project>
