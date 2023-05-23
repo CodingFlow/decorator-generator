@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,9 +30,13 @@ public abstract class {className} : {@interface.Name}
         this.{targetFieldName} = {targetFieldName};
     }}
 
-{string.Join($"{SyntaxFactory.ElasticCarriageReturnLineFeed}{SyntaxFactory.ElasticCarriageReturnLineFeed}", formattedDisplayProperties)}
+{string.Join(@"
 
-{string.Join($"{SyntaxFactory.ElasticCarriageReturnLineFeed}{SyntaxFactory.ElasticCarriageReturnLineFeed}", formattedDisplayMethods)}
+", formattedDisplayProperties)}
+
+{string.Join(@"
+
+", formattedDisplayMethods)}
 }}
 ";
 
