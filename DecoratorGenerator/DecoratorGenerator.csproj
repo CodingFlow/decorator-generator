@@ -26,6 +26,10 @@
 - Add support for types with nested namespaces.</PackageReleaseNotes>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    </PropertyGroup>
+
     <ItemGroup>
         <None Include="nuget-package-logo.png">
             <Pack>True</Pack>
