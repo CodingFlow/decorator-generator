@@ -10,7 +10,7 @@
         <RepositoryUrl>https://github.com/CodingFlow/decorator-generator</RepositoryUrl>
         <PackageTags>source;generator;roslyn;decorator;proxy;</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-        <VersionPrefix>0.2.0</VersionPrefix>
+        <VersionPrefix>0.2.1</VersionPrefix>
         <Description>
             Source generator for decorator pattern boilerplate code in C#.
 
@@ -19,7 +19,9 @@
         <Authors>Coding Flow</Authors>
         <RepositoryType>git</RepositoryType>
         <PackageIcon>nuget-package-logo.png</PackageIcon>
-        <PackageReleaseNotes>0.2.0
+        <PackageReleaseNotes>0.2.1
+- Minor/patch version update to some depenencies.
+0.2.0
 - Minor whitespace changes in generated files
 - Uniform line ending type in generated files
 0.1.4
@@ -47,9 +49,9 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.6.0" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.6.0" />
-        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.3">
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.7.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.4">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
