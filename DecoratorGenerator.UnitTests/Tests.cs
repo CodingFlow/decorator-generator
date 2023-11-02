@@ -41,6 +41,28 @@ public class Tests
     }
 
     [Test]
+    public async Task OneInterface_Properties() {
+        var source = await ReadCSharpFile<ILionProperties>();
+        var generated = await ReadCSharpFile<LionPropertiesDecorator>();
+
+        await new VerifyCS.Test
+        {
+            TestState = {
+                ReferenceAssemblies = ReferenceAssemblies.Net.Net60,
+                AdditionalReferences =
+                {
+                    implementationAssembly,
+                },
+                Sources = { source },
+                GeneratedSources =
+                {
+                    (typeof(Main), "LionPropertiesDecorator.generated.cs", SourceText.From(generated, Encoding.UTF8, SourceHashAlgorithm.Sha256)),
+                },
+            },
+        }.RunAsync();
+    }
+
+    [Test]
     public async Task OneInterface_NestedNamespace() {
         var source = await ReadCSharpFile<INested>();
         var generated = await ReadCSharpFile<NestedDecorator>();
