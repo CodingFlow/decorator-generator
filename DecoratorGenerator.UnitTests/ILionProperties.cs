@@ -6,4 +6,8 @@ namespace SampleLibrary;
 public interface ILionProperties
 {
     string Name { get; }
+
+    string Color { set; }
+
+    int Age { get; set; }
 }

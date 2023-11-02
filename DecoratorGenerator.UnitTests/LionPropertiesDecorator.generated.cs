@@ -11,5 +11,9 @@ public abstract class LionPropertiesDecorator : ILionProperties
 
     public virtual string Name { get => lionProperties.Name; }
 
+    public virtual string Color { set => lionProperties.Color = value; }
+
+    public virtual int Age { get => lionProperties.Age; set => lionProperties.Age = value; }
+
 
 }
