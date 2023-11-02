@@ -1,6 +1,7 @@
 # Decorator Generator
 
 [![Nuget](https://img.shields.io/nuget/v/DecoratorGenerator)](https://www.nuget.org/packages/DecoratorGenerator)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/CodingFlow/decorator-generator/pull-request.yml)
 [![Nuget](https://img.shields.io/nuget/dt/DecoratorGenerator)](https://www.nuget.org/packages/DecoratorGenerator)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/CodingFlow)](https://github.com/sponsors/CodingFlow)
 
@@ -91,7 +92,8 @@ using Amazon.DynamoDBv2.DataModel;
 
 public struct WrapperList
 {
-    IDynamoDBContext dynamoDBContext; // name the field whatever you want, it isn't used.
+    // name the field whatever you want, the name isn't used, only the type is used.
+    IDynamoDBContext dynamoDBContext;
 }
 ```
 
