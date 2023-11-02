@@ -10,4 +10,6 @@ public abstract class LionPropertiesDecorator : ILionProperties
     }
 
     public virtual string Name { get => lionProperties.Name; }
+
+
 }

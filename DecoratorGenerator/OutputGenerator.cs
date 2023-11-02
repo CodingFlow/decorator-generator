@@ -65,17 +65,30 @@ public abstract class {className} : {@interface.Name}
             var displayProperties = properties.Select(property => {
                 var formattedAccessibility = property.DeclaredAccessibility.ToString().ToLower();
                 var signature = $@"{formattedAccessibility} virtual {property.Type} {property.Name}";
-                var call = $@"get => {targetFieldName}.{property.Name}; set => {targetFieldName}.{property.Name} = value;";
+
+
+                var propertyMethods = new List<string>();
+
+                if (property.GetMethod != null) {
+                    propertyMethods.Add($@"get => {targetFieldName}.{property.Name};");
+                }
+
+                if (property.SetMethod != null) {
+                    propertyMethods.Add($@"set => {targetFieldName}.{property.Name} = value;");
+                }
+
+                var call = string.Join(" ", propertyMethods);
 
                 return (signature, call, string.Empty);
             });
+
             return displayProperties;
         }
 
         private static IEnumerable<string> FormatDisplayMethods(IEnumerable<(string signature, string call, ITypeSymbol returnType)> displayMethods) {
             return displayMethods.Select(method => {
                 return
-$@"    {method.signature} {{
+    $@"    {method.signature} {{
         {(method.returnType.Name == "Void" ? string.Empty : "return ")}{method.call};
     }}";
             });
