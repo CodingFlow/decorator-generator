@@ -10,7 +10,7 @@
         <RepositoryUrl>https://github.com/CodingFlow/decorator-generator</RepositoryUrl>
         <PackageTags>source;generator;roslyn;decorator;proxy;</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-        <VersionPrefix>0.2.2</VersionPrefix>
+        <VersionPrefix>0.2.3</VersionPrefix>
         <Description>
             Source generator for decorator pattern boilerplate code in C#.
 
@@ -19,10 +19,12 @@
         <Authors>Coding Flow</Authors>
         <RepositoryType>git</RepositoryType>
         <PackageIcon>nuget-package-logo.png</PackageIcon>
-        <PackageReleaseNotes>0.2.2
+        <PackageReleaseNotes>0.2.3
+- Minor version update to code analysis dependencies.
+0.2.2
 - Fix bug: interface property always generates with set and get.
 0.2.1
-- Minor/patch version update to some depenencies.
+- Minor/patch version update to some dependencies.
 0.2.0
 - Minor whitespace changes in generated files
 - Uniform line ending type in generated files
