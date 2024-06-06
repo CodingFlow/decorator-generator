@@ -1,6 +1,6 @@
 name: pull-request-unit-tests
 run-name: Unit tests
-on: [push]
+on: [push, workflow_dispatch]
 jobs:
   build:
     name: Unit tests
