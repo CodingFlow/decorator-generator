@@ -51,7 +51,28 @@ public abstract class {className} : {@interface.Name}
                 var typeParametersStrings = method.TypeParameters.Select(t => t.ToDisplayString());
                 var parametersStrings = method.Parameters.Select(p => $@"{p.Type} {p.Name}");
                 var formattedAccessibility = (method.ReturnType.DeclaredAccessibility != Accessibility.NotApplicable ? method.ReturnType.DeclaredAccessibility : Accessibility.Public).ToString().ToLower();
-                var signature = $@"{formattedAccessibility} virtual {method.ReturnType} {method.Name}{(method.IsGenericMethod ? $@"<{string.Join(", ", typeParametersStrings)}>" : string.Empty)}({string.Join(", ", parametersStrings)})";
+                var formattedGenericTypeParameters = method.IsGenericMethod ? $@"<{string.Join(", ", typeParametersStrings)}>" : string.Empty;
+                var formattedConstraintsStrings = method.TypeParameters.Select(t => {
+                    var constraintsStrings = new List<string>();
+
+                    if (t.HasReferenceTypeConstraint) {
+                        constraintsStrings.Add("class");
+                    }
+                    
+                    if (t.HasNotNullConstraint) {
+                        constraintsStrings.Add("notnull");
+                    }
+                    constraintsStrings = constraintsStrings.Concat(t.ConstraintTypes.ToList().Select(ct => ct.ToDisplayString())).ToList();
+
+                    if (t.HasConstructorConstraint) {
+                        constraintsStrings.Add("new()");
+                    }
+
+                    return constraintsStrings.Any() ? $@"where {t.ToDisplayString()} : {string.Join(", ", constraintsStrings)}" : string.Empty;
+                })
+                    .Where(cs => cs != string.Empty);
+                var formattedConstraints = string.Join(" ", formattedConstraintsStrings);
+                var signature = $@"{formattedAccessibility} virtual {method.ReturnType} {method.Name}{formattedGenericTypeParameters}({string.Join(", ", parametersStrings)}){(formattedConstraints != string.Empty ? $@" {formattedConstraints}" : string.Empty)}";
                 var callParameters = $@"{string.Join(", ", method.Parameters.Select(p => p.Name))}";
 
                 var call = $@"{targetFieldName}.{method.Name}{(method.IsGenericMethod ? $@"<{string.Join(", ", typeParametersStrings)}>" : string.Empty)}({callParameters})";
