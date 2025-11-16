@@ -10,7 +10,7 @@
         <RepositoryUrl>https://github.com/CodingFlow/decorator-generator</RepositoryUrl>
         <PackageTags>source;generator;roslyn;decorator;proxy;</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-        <VersionPrefix>0.2.4</VersionPrefix>
+        <VersionPrefix>0.2.5</VersionPrefix>
         <Description>
             Source generator for decorator pattern boilerplate code in C#.
 
@@ -19,7 +19,9 @@
         <Authors>Coding Flow</Authors>
         <RepositoryType>git</RepositoryType>
         <PackageIcon>nuget-package-logo.png</PackageIcon>
-        <PackageReleaseNotes>0.2.4
+        <PackageReleaseNotes>0.2.5
+- Add support for interface method constraints.
+0.2.4
 - Enable nullable context in generated files.
 - Minor version update to code analysis dependencies.
 0.2.3
