@@ -63,6 +63,29 @@ public class Tests
     }
 
     [Test]
+    public async Task OneInterface_Constraints() {
+        var source = await ReadCSharpFile<ITigerConstraints>();
+        var generated = await ReadCSharpFile<TigerConstraintsDecorator>();
+
+        await new VerifyCS.Test
+        {
+            TestState = {
+                ReferenceAssemblies = ReferenceAssemblies.Net.Net60,
+                AdditionalReferences =
+                {
+                    implementationAssembly,
+                    Assembly.GetExecutingAssembly()
+                },
+                Sources = { source },
+                GeneratedSources =
+                {
+                    (typeof(Main), "TigerConstraintsDecorator.generated.cs", SourceText.From(generated, Encoding.UTF8, SourceHashAlgorithm.Sha256)),
+                },
+            },
+        }.RunAsync();
+    }
+
+    [Test]
     public async Task OneInterface_NestedNamespace() {
         var source = await ReadCSharpFile<INested>();
         var generated = await ReadCSharpFile<NestedDecorator>();
