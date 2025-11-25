@@ -40,7 +40,7 @@ public interface ICat
 }
 ```
 
-Build the project so the abstract class is generated for the interface. The generated class will be named after the interface, but without the `I` prefix. In this case, since the interface is `ICat` the class will be `CatDecorator`. Then create your decorator class as usual:
+Since this library is an [incremental source generator](https://github.com/dotnet/roslyn/blob/d8c21d64ca958840bdaa2898cb2324397dc57bbb/docs/features/incremental-generators.md), the abstract class should be generated after saving the changes to interface's file. The generated class will be named after the interface, but without the `I` prefix. In this case, since the interface is `ICat` the class will be `CatDecorator`. Then create your decorator class as usual:
 
 ```c#
 namespace SampleLibrary;
