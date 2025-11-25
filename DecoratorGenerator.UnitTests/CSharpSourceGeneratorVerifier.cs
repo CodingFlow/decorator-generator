@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 
 namespace DecoratorGenerator.UnitTests;
 
-public static class CSharpSourceGeneratorVerifier<TSourceGenerator> where TSourceGenerator : ISourceGenerator, new()
+public static class CSharpSourceGeneratorVerifier<TSourceGenerator> where TSourceGenerator : IIncrementalGenerator, new()
 {
     public class Test : CSharpSourceGeneratorTest<TSourceGenerator, DefaultVerifier>
     {

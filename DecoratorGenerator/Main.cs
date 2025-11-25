@@ -1,42 +1,61 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace DecoratorGenerator
 {
     [Generator]
-    public class Main : ISourceGenerator
+    public class Main : IIncrementalGenerator
     {
-        public void Initialize(GeneratorInitializationContext context) {
-            // No initialization required for this one
+        public void Initialize(IncrementalGeneratorInitializationContext context) {
+            var types = context.SyntaxProvider.ForAttributeWithMetadataName(
+                $"DecoratorGenerator.{nameof(DecorateAttribute)}",
+                predicate: IsSyntaxTargetForGeneration,
+                transform: GetSemanticTargetForGeneration
+            );
+
+            var thirdPartyTypes = context.CompilationProvider.SelectMany(GetThirdPartySemanticTargetsForGeneration);
+
+            context.RegisterSourceOutput(types, Execute);
+            context.RegisterSourceOutput(thirdPartyTypes, Execute);
         }
 
-        public void Execute(GeneratorExecutionContext context) {
-            var types = GetAllDecoratedTypes(context.Compilation.Assembly.GlobalNamespace);
+        private static bool IsSyntaxTargetForGeneration(SyntaxNode syntaxNode, CancellationToken token) {
+            return syntaxNode is InterfaceDeclarationSyntax;
+        }
 
-            var wrapperSymbolWithoutNamespace = context.Compilation.Assembly.GetTypeByMetadataName("WrapperList");
+        private static INamedTypeSymbol GetSemanticTargetForGeneration(GeneratorAttributeSyntaxContext context, CancellationToken cancellationToken) {
+            var intefaceSyntax = context.TargetNode as InterfaceDeclarationSyntax;
+            var symbol = context.SemanticModel.GetDeclaredSymbol(intefaceSyntax, cancellationToken: cancellationToken) as INamedTypeSymbol;
+
+            return symbol;
+        }
+
+        private static void Execute(SourceProductionContext context, INamedTypeSymbol typeSymbol) {
+            var (source, className) = OutputGenerator.GenerateOutputs(typeSymbol);
+
+            context.AddSource($"{className}.generated.cs", SourceText.From(source, Encoding.UTF8, SourceHashAlgorithm.Sha256));
+        }
+
+        private IEnumerable<INamedTypeSymbol> GetThirdPartySemanticTargetsForGeneration(Compilation compilation, CancellationToken _) {
+            var wrapperSymbolWithoutNamespace = compilation.Assembly.GetTypeByMetadataName("WrapperList");
+
             var wrapperListTypes =
-                (wrapperSymbolWithoutNamespace == null)
-                ? GetAllTypes(context.Compilation.Assembly.GlobalNamespace, x => x.Name == "WrapperList")
-                : new[] { wrapperSymbolWithoutNamespace };
-            var thirdPartyTypes =
+            (wrapperSymbolWithoutNamespace == null)
+            ? GetAllTypes(compilation.Assembly.GlobalNamespace, x => x.Name == "WrapperList")
+            : new[] { wrapperSymbolWithoutNamespace };
+
+            return
                 wrapperListTypes.SelectMany(x => x.GetMembers()
                 .Where(m => m.Name != ".ctor")
                 .Select(m => m as IFieldSymbol)
                 .Select(f => f.Type)
                 .Select(t => t as INamedTypeSymbol));
-
-            types = types.Concat(thirdPartyTypes);
-
-            var outputs = types.Select(OutputGenerator.GenerateOutputs);
-
-            foreach (var (source, className) in outputs) {
-                // Add the source code to the compilation
-                context.AddSource($"{className}.generated.cs", SourceText.From(source, Encoding.UTF8, SourceHashAlgorithm.Sha256));
-            }
         }
 
         /// <summary>
@@ -57,15 +76,6 @@ namespace DecoratorGenerator
                     yield return nestedItem;
                 }
             }
-        }
-
-        /// <summary>
-        /// Gets all Types in the namespace decorated with the <see cref="DecorateAttribute"/> including nested namespaces.
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        private IEnumerable<INamedTypeSymbol> GetAllDecoratedTypes(INamespaceSymbol input) {
-            return GetAllTypes(input, (x) => x.GetAttributes().Any(att => att.AttributeClass.Name == nameof(DecorateAttribute)));
         }
     }
 }
