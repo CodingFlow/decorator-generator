@@ -1,0 +1,7 @@
+<Project>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="DecoratorGenerator.UnitTests" />
+    </ItemGroup>
+
+</Project>
