@@ -3,9 +3,9 @@
 namespace SampleLibrary;
 
 [Decorate]
-public interface ITigerConstraints
+public interface ITigerConstraints<T> where T : class, ICat, new()
 {
     string Roar();
 
-    string Trait<T>(T trait) where T : class, ICat, new();
+    string Trait<U>(U trait) where U : class, ICat, new();
 }

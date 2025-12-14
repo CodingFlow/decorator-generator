@@ -2,11 +2,11 @@
 #nullable restore
 namespace SampleLibrary;
 
-public abstract class TigerConstraintsDecorator : ITigerConstraints
+public abstract class TigerConstraintsDecorator<T> : ITigerConstraints<T> where T : class, SampleLibrary.ICat, new()
 {
-    private ITigerConstraints tigerConstraints;
+    private ITigerConstraints<T> tigerConstraints;
 
-    protected TigerConstraintsDecorator(ITigerConstraints tigerConstraints) {
+    protected TigerConstraintsDecorator(ITigerConstraints<T> tigerConstraints) {
         this.tigerConstraints = tigerConstraints;
     }
 
@@ -16,7 +16,7 @@ public abstract class TigerConstraintsDecorator : ITigerConstraints
         return tigerConstraints.Roar();
     }
 
-    public virtual string Trait<T>(T trait) where T : class, SampleLibrary.ICat, new() {
-        return tigerConstraints.Trait<T>(trait);
+    public virtual string Trait<U>(U trait) where U : class, SampleLibrary.ICat, new() {
+        return tigerConstraints.Trait<U>(trait);
     }
 }

@@ -66,8 +66,8 @@ public class Tests
 
     [Test]
     public async Task OneInterface_Constraints() {
-        var source = await ReadCSharpFile<ITigerConstraints>(true);
-        var generated = await ReadCSharpFile<TigerConstraintsDecorator>(true);
+        var source = await ReadCSharpFileByName(true, "ITigerConstraints");
+        var generated = await ReadCSharpFileByName(true, "TigerConstraintsDecorator.generated");
 
         await new VerifyCS.Test
         {
