@@ -30,6 +30,7 @@ public class Tests
                 AdditionalReferences =
                 {
                     implementationAssembly,
+                    GetAssembly("TestLibrary")
                 },
                 Sources = { source },
                 GeneratedSources =
@@ -52,6 +53,7 @@ public class Tests
                 AdditionalReferences =
                 {
                     implementationAssembly,
+                    GetAssembly("TestLibrary")
                 },
                 Sources = { source },
                 GeneratedSources =
@@ -97,6 +99,7 @@ public class Tests
                 AdditionalReferences =
                 {
                     implementationAssembly,
+                    GetAssembly("TestLibrary")
                 },
                 Sources = { source },
                 GeneratedSources =
@@ -122,6 +125,7 @@ public class Tests
                 AdditionalReferences =
                 {
                     implementationAssembly,
+                    GetAssembly("TestLibrary")
                 },
                 Sources = { sourceOne, sourceTwo },
                 GeneratedSources =
@@ -147,6 +151,7 @@ public class Tests
                 AdditionalReferences =
                 {
                     implementationAssembly,
+                    GetAssembly("TestLibrary"),
                     Assembly.GetAssembly(typeof(DynamoDBContext)),
                 },
                 Sources = { wrapperList, source },
