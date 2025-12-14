@@ -20,13 +20,13 @@ public class Tests
 
     [Test]
     public async Task OneInterface() {
-        var source = await ReadCSharpFile<IBird>();
-        var generated = await ReadCSharpFile<BirdDecorator>();
+        var source = await ReadCSharpFile<IBird>(true);
+        var generated = await ReadCSharpFile<BirdDecorator>(true);
 
         await new VerifyCS.Test
         {
             TestState = {
-                ReferenceAssemblies = ReferenceAssemblies.Net.Net60,
+                ReferenceAssemblies = ReferenceAssemblies.Net.Net90,
                 AdditionalReferences =
                 {
                     implementationAssembly,
@@ -42,13 +42,13 @@ public class Tests
 
     [Test]
     public async Task OneInterface_Properties() {
-        var source = await ReadCSharpFile<ILionProperties>();
-        var generated = await ReadCSharpFile<LionPropertiesDecorator>();
+        var source = await ReadCSharpFile<ILionProperties>(true);
+        var generated = await ReadCSharpFile<LionPropertiesDecorator>(true);
 
         await new VerifyCS.Test
         {
             TestState = {
-                ReferenceAssemblies = ReferenceAssemblies.Net.Net60,
+                ReferenceAssemblies = ReferenceAssemblies.Net.Net90,
                 AdditionalReferences =
                 {
                     implementationAssembly,
@@ -64,17 +64,17 @@ public class Tests
 
     [Test]
     public async Task OneInterface_Constraints() {
-        var source = await ReadCSharpFile<ITigerConstraints>();
-        var generated = await ReadCSharpFile<TigerConstraintsDecorator>();
+        var source = await ReadCSharpFile<ITigerConstraints>(true);
+        var generated = await ReadCSharpFile<TigerConstraintsDecorator>(true);
 
         await new VerifyCS.Test
         {
             TestState = {
-                ReferenceAssemblies = ReferenceAssemblies.Net.Net60,
+                ReferenceAssemblies = ReferenceAssemblies.Net.Net90,
                 AdditionalReferences =
                 {
                     implementationAssembly,
-                    Assembly.GetExecutingAssembly()
+                    GetAssembly("TestLibrary")
                 },
                 Sources = { source },
                 GeneratedSources =
@@ -87,13 +87,13 @@ public class Tests
 
     [Test]
     public async Task OneInterface_NestedNamespace() {
-        var source = await ReadCSharpFile<INested>();
-        var generated = await ReadCSharpFile<NestedDecorator>();
+        var source = await ReadCSharpFile<INested>(true);
+        var generated = await ReadCSharpFile<NestedDecorator>(true);
 
         await new VerifyCS.Test
         {
             TestState = {
-                ReferenceAssemblies = ReferenceAssemblies.Net.Net60,
+                ReferenceAssemblies = ReferenceAssemblies.Net.Net90,
                 AdditionalReferences =
                 {
                     implementationAssembly,
@@ -109,16 +109,16 @@ public class Tests
 
     [Test]
     public async Task TwoInterfaces() {
-        var sourceOne = await ReadCSharpFile<IBird>();
-        var sourceTwo = await ReadCSharpFile<ICat>();
+        var sourceOne = await ReadCSharpFile<IBird>(true);
+        var sourceTwo = await ReadCSharpFile<ICat>(true);
 
-        var generatedOne = await ReadCSharpFile<BirdDecorator>();
-        var generatedTwo = await ReadCSharpFile<CatDecorator>();
+        var generatedOne = await ReadCSharpFile<BirdDecorator>(true);
+        var generatedTwo = await ReadCSharpFile<CatDecorator>(true);
 
         await new VerifyCS.Test
         {
             TestState = {
-                ReferenceAssemblies = ReferenceAssemblies.Net.Net60,
+                ReferenceAssemblies = ReferenceAssemblies.Net.Net90,
                 AdditionalReferences =
                 {
                     implementationAssembly,
@@ -135,19 +135,19 @@ public class Tests
 
     [Test]
     public async Task WrapperList() {
-        var source = await ReadCSharpFile<IBird>();
-        var wrapperList = await ReadCSharpFile<WrapperList>();
-        var generated = await ReadCSharpFile<BirdDecorator>();
-        var generatedThirdParty = await ReadCSharpFile<DynamoDBContextDecorator>();
+        var source = await ReadCSharpFile<IBird>(true);
+        var wrapperList = await ReadCSharpFile<WrapperList>(true);
+        var generated = await ReadCSharpFile<BirdDecorator>(true);
+        var generatedThirdParty = await ReadCSharpFileByName(true, "DynamoDBContextDecorator.generated");
 
         await new VerifyCS.Test
         {
             TestState = {
-                ReferenceAssemblies = ReferenceAssemblies.Net.Net60,
+                ReferenceAssemblies = ReferenceAssemblies.Net.Net90,
                 AdditionalReferences =
                 {
                     implementationAssembly,
-                    GetAssembly("AWSSDK.DynamoDBv2")
+                    Assembly.GetAssembly(typeof(DynamoDBContext)),
                 },
                 Sources = { wrapperList, source },
                 GeneratedSources =
@@ -164,13 +164,32 @@ public class Tests
         return Assembly.Load(implementationAssemblyName);
     }
 
-    private static async Task<string> ReadCSharpFile<T>() {
-        var currentDirectory = Directory.GetParent(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName);
+    private static async Task<string> ReadCSharpFile<T>(bool isTestLibrary) {
+        var filenameWithoutExtension = typeof(T).Name;
+        return await ReadCSharpFileByName(isTestLibrary, filenameWithoutExtension);
+    }
 
-        var searchPattern = $"{typeof(T).Name}*.cs";
-        var file = currentDirectory.GetFiles(searchPattern).First();
+    private static async Task<string> ReadCSharpFileByName(bool isTestLibrary, string filenameWithoutExtension) {
+        var searchPattern = $"{filenameWithoutExtension}*.cs";
+        return await ReadFile(isTestLibrary, searchPattern);
+    }
+
+    private static async Task<string> ReadFile(bool isTestLibrary, string searchPattern) {
+        var currentDirectory = GetCurrentDirectory();
+
+        var targetDirectory = isTestLibrary ? GetTestLibraryDirectory(currentDirectory) : currentDirectory;
+
+        var file = targetDirectory.GetFiles(searchPattern).First();
 
         using var fileReader = new StreamReader(file.OpenRead());
         return await fileReader.ReadToEndAsync();
+    }
+
+    private static DirectoryInfo? GetCurrentDirectory() {
+        return Directory.GetParent(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName);
+    }
+
+    private static DirectoryInfo GetTestLibraryDirectory(DirectoryInfo currentDirectory) {
+        return currentDirectory.Parent.GetDirectories("TestLibrary").First();
     }
 }
