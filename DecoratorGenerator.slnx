@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/SolutionItems/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="DecoratorGenerator.UnitTests/DecoratorGenerator.UnitTests.csproj" />
+  <Project Path="DecoratorGenerator/DecoratorGenerator.csproj" />
+  <Project Path="SampleApp/SampleApp.csproj" />
+  <Project Path="SampleLibrary/SampleLibrary.csproj" />
+  <Project Path="TestLibrary/TestLibrary.csproj" />
+</Solution>
