@@ -5,6 +5,7 @@ using SampleLibrary;
 using SampleLibrary.Deep.Nesteds;
 using System.Reflection;
 using System.Text;
+using TestLibrary;
 using VerifyCS = DecoratorGenerator.UnitTests.CSharpSourceGeneratorVerifier<DecoratorGenerator.Main>;
 
 namespace DecoratorGenerator.UnitTests;
@@ -36,6 +37,29 @@ public class Tests
                 GeneratedSources =
                 {
                     (typeof(Main), "BirdDecorator.generated.cs", SourceText.From(generated, Encoding.UTF8, SourceHashAlgorithm.Sha256)),
+                },
+            },
+        }.RunAsync();
+    }
+
+    [Test]
+    public async Task OneInterface_Internal() {
+        var source = await ReadCSharpFile<IInternalType>(true);
+        var generated = await ReadCSharpFile<InternalTypeDecorator>(true);
+
+        await new VerifyCS.Test
+        {
+            TestState = {
+                ReferenceAssemblies = ReferenceAssemblies.Net.Net90,
+                AdditionalReferences =
+                {
+                    implementationAssembly,
+                    GetAssembly("TestLibrary")
+                },
+                Sources = { source },
+                GeneratedSources =
+                {
+                    (typeof(Main), "InternalTypeDecorator.generated.cs", SourceText.From(generated, Encoding.UTF8, SourceHashAlgorithm.Sha256)),
                 },
             },
         }.RunAsync();
