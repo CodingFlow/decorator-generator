@@ -10,17 +10,15 @@
         <RepositoryUrl>https://github.com/CodingFlow/decorator-generator</RepositoryUrl>
         <PackageTags>source;generator;roslyn;decorator;proxy;</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-        <VersionPrefix>0.3.2</VersionPrefix>
-        <Description>
-            Source generator for decorator pattern boilerplate code in C#.
+        <VersionPrefix>0.3.3</VersionPrefix>
+        <Description>Source generator for decorator pattern boilerplate code in C#.
 
-            When implementing the decorator pattern in C#, it requires adding boilerplate code for every interface that needs to support decorators, namely the abstract class. Boilerplate is tedious to write and error-prone. This source generator solves this problem by automatically generating the abstract class. It only needs to be told which interfaces it should generate the abstract class for.
-        </Description>
+When implementing the decorator pattern in C#, it requires adding boilerplate code for every interface that needs to support decorators, namely the abstract class. Boilerplate is tedious to write and error-prone. This source generator solves this problem by automatically generating the abstract class. It only needs to be told which interfaces it should generate the abstract class for.</Description>
         <Authors>Coding Flow</Authors>
         <RepositoryType>git</RepositoryType>
         <PackageIcon>nuget-package-logo.png</PackageIcon>
-        <PackageReleaseNotes>0.3.2
-- Fix: ensure generated abstract class access modifier matches the interface's (e.g. internal or public).</PackageReleaseNotes>
+        <PackageReleaseNotes>0.3.3
+- Fix: Add support for method parameter modifiers (e.g. out, in).</PackageReleaseNotes>
     </PropertyGroup>
 
     <PropertyGroup>
