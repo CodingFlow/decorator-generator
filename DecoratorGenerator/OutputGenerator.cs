@@ -58,12 +58,24 @@ namespace {@interface.ContainingNamespace.ToDisplayString()};
 
             var displayMethods = methods.Select(method => {
                 var typeParametersStrings = method.TypeParameters.Select(t => t.ToDisplayString());
-                var parametersStrings = method.Parameters.Select(p => $@"{p.Type} {p.Name}");
+                var parametersStrings = method.Parameters.Select(p => {
+                    var modifier = p.RefKind == RefKind.None
+                        ? string.Empty
+                        : $"{p.RefKind.ToString().ToLower()} ";
+                    
+                    return $@"{modifier}{p.Type} {p.Name}";
+                });
                 var formattedAccessibility = (method.ReturnType.DeclaredAccessibility != Accessibility.NotApplicable ? method.ReturnType.DeclaredAccessibility : Accessibility.Public).ToString().ToLower();
                 var formattedGenericTypeParameters = method.IsGenericMethod ? $@"<{string.Join(", ", typeParametersStrings)}>" : string.Empty;
                 var formattedConstraints = CreateFormattedConstraints(method.TypeParameters);
                 var signature = $@"{formattedAccessibility} virtual {method.ReturnType} {method.Name}{formattedGenericTypeParameters}({string.Join(", ", parametersStrings)}){(formattedConstraints != string.Empty ? $@" {formattedConstraints}" : string.Empty)}";
-                var callParameters = $@"{string.Join(", ", method.Parameters.Select(p => p.Name))}";
+                var callParameters = $@"{string.Join(", ", method.Parameters.Select(p => {
+                    var modifier = p.RefKind == RefKind.None
+                        ? string.Empty
+                        : $"{p.RefKind.ToString().ToLower()} ";
+
+                    return $"{modifier}{p.Name}";
+                }))}";
 
                 var call = $@"{targetFieldName}.{method.Name}{(method.IsGenericMethod ? $@"<{string.Join(", ", typeParametersStrings)}>" : string.Empty)}({callParameters})";
 
@@ -123,8 +135,7 @@ namespace {@interface.ContainingNamespace.ToDisplayString()};
 
         private static IEnumerable<string> FormatDisplayMethods(IEnumerable<(string signature, string call, ITypeSymbol returnType)> displayMethods) {
             return displayMethods.Select(method => {
-                return
-    $@"    {method.signature} {{
+                return $@"    {method.signature} {{
         {(method.returnType.Name == "Void" ? string.Empty : "return ")}{method.call};
     }}";
             });
