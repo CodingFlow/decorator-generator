@@ -238,7 +238,7 @@ public class Tests
     }
 
     private static DirectoryInfo? GetCurrentDirectory() {
-        return Directory.GetParent(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName);
+        return Directory.GetParent(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.FullName);
     }
 
     private static DirectoryInfo GetTestLibraryDirectory(DirectoryInfo currentDirectory) {
