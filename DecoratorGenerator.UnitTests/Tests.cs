@@ -135,6 +135,29 @@ public class Tests
     }
 
     [Test]
+    public async Task OneInterface_OutParameter() {
+        var source = await ReadCSharpFile<IOutParameter>(true);
+        var generated = await ReadCSharpFile<OutParameterDecorator>(true);
+
+        await new VerifyCS.Test
+        {
+            TestState = {
+                ReferenceAssemblies = ReferenceAssemblies.Net.Net90,
+                AdditionalReferences =
+                {
+                    implementationAssembly,
+                    GetAssembly("TestLibrary")
+                },
+                Sources = { source },
+                GeneratedSources =
+                {
+                    (typeof(Main), "OutParameterDecorator.generated.cs", SourceText.From(generated, Encoding.UTF8, SourceHashAlgorithm.Sha256)),
+                },
+            },
+        }.RunAsync();
+    }
+
+    [Test]
     public async Task TwoInterfaces() {
         var sourceOne = await ReadCSharpFile<IBird>(true);
         var sourceTwo = await ReadCSharpFile<ICat>(true);
