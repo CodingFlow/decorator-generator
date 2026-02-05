@@ -98,3 +98,7 @@ public struct WrapperList
 ```
 
 In this case, it will generate a class for `IDynamoDBContext` called `DynamoDBContextDecorator`. This feature will also work for your own interfaces if you prefer this approach instead of using the attribute.
+
+# Sponsors
+
+<!-- sponsors --><!-- sponsors -->
